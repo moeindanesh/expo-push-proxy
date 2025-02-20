@@ -52,6 +52,7 @@ const app = new Elysia()
           body: JSON.stringify(body),
         }
       );
+      console.log("res", expoResponse);
 
       if (!expoResponse.ok) {
         return error(expoResponse.status, {
@@ -62,6 +63,7 @@ const app = new Elysia()
 
       return expoResponse.json();
     } catch (err) {
+      console.error(err);
       return error(500, {
         error: "Proxy Error",
         details: err instanceof Error ? err.message : "Unknown error",
