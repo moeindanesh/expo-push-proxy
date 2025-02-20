@@ -47,11 +47,13 @@ const app = new Elysia()
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            Accept: "application/json",
             "Accept-Encoding": "gzip, deflate",
           },
           body: JSON.stringify(body),
         }
       );
+
       console.log("res", expoResponse);
 
       if (!expoResponse.ok) {
