@@ -10,34 +10,7 @@ const RATE_LIMIT = process.env.RATE_LIMIT
   : 100;
 
 const app = new Elysia()
-  // Security headers
-  // .use(staticPlugin())
-  // .use(
-  //   cors({
-  //     origin: ALLOWED_ORIGINS,
-  //     allowedHeaders: ['Content-Type', 'X-API-KEY'],
-  //     methods: ['POST']
-  //   })
-  // )
   .use(cors())
-  // .use(
-  //   rateLimit({
-  //     duration: 60_000, // 1 minute
-  //     max: RATE_LIMIT,
-  //     generator: (req) => req.headers.get('cf-connecting-ip') || req.ip
-  //   })
-  // )
-  // API key validation
-  // .derive(({ headers, error }) => {
-  //   const apiKey = headers['x-api-key'];
-
-  //   if (apiKey !== API_KEY) {
-  //     return error(403, {
-  //       error: 'Unauthorized',
-  //       message: 'Invalid API key'
-  //     });
-  //   }
-  // })
   // Proxy endpoint
   .post("/proxy/expo-push-token", async ({ body, error }) => {
     try {
@@ -53,8 +26,6 @@ const app = new Elysia()
           body: JSON.stringify(body),
         }
       );
-
-      console.log("res", expoResponse);
 
       if (!expoResponse.ok) {
         return error(expoResponse.status, {
@@ -81,3 +52,32 @@ console.log(
 );
 
 export type App = typeof app;
+
+// Security headers
+// .use(staticPlugin())
+// .use(
+//   cors({
+//     origin: ALLOWED_ORIGINS,
+//     allowedHeaders: ['Content-Type', 'X-API-KEY'],
+//     methods: ['POST']
+//   })
+// )
+
+// .use(
+//   rateLimit({
+//     duration: 60_000, // 1 minute
+//     max: RATE_LIMIT,
+//     generator: (req) => req.headers.get('cf-connecting-ip') || req.ip
+//   })
+// )
+// API key validation
+// .derive(({ headers, error }) => {
+//   const apiKey = headers['x-api-key'];
+
+//   if (apiKey !== API_KEY) {
+//     return error(403, {
+//       error: 'Unauthorized',
+//       message: 'Invalid API key'
+//     });
+//   }
+// })
